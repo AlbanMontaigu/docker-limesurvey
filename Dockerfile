@@ -22,7 +22,7 @@ RUN mkdir -p -m 777 /var/backup/limesurvey \
     && chown -Rfv www-data:www-data /usr/src/limesurvey
 
 # Entrypoint to enable live customization
-COPY --chmod=655 docker-entrypoint.sh /docker-entrypoint.sh
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 # Volume for limesurvey backup
 VOLUME /var/backup/limesurvey
