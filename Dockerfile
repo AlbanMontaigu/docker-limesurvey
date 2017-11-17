@@ -14,8 +14,8 @@ FROM amontaigu/php-fpm:7.1.11
 MAINTAINER alban.montaigu@gmail.com
 
 # Get limesurvey and install it
-RUN mkdir -p --mode=777 /var/backup/limesurvey \
-    && mkdir -p --mode=777 /usr/src/limesurvey \
+RUN mkdir -p -m 777 /var/backup/limesurvey \
+    && mkdir -p -m 777 /usr/src/limesurvey \
     && curl -o limesurvey.tgz -SL https://www.limesurvey.org/fr/version-developpement?download=2184:limesurvey300-rc3%20171114targz \
     && tar -xzf limesurvey.tgz --strip-components=1 -C /usr/src/limesurvey \
     && rm limesurvey.tgz \
