@@ -1,11 +1,14 @@
 #!/bin/sh
 set -e
 
+# Configuration
+APP_DIR="/var/www"
+
 # Backup the prev install in case of fail...
 echo "[INFO] ---------------------------------------------------------------"
 echo "[INFO] Backup old limesurvey installation in $(pwd)"
 echo "[INFO] ---------------------------------------------------------------"
-tar -zcvf /var/backup/limesurvey/limesurvey-v$(date '+%Y%m%d%H%M%S').tar.gz .
+tar -zcf /var/backup/limesurvey/limesurvey-v$(date '+%Y%m%d%H%M%S').tar.gz $APP_DIR
 echo "[INFO] Complete! Backup successfully done in $(pwd)"
 
 # File copy strategy taken from wordpress entrypoint
@@ -14,17 +17,21 @@ echo "[INFO] Complete! Backup successfully done in $(pwd)"
 echo "[INFO] ---------------------------------------------------------------"
 echo "[INFO] Installing or upgrading limesurvey in $(pwd) - copying now..."
 echo "[INFO] ---------------------------------------------------------------"
-echo "[INFO] Removing old installation"
-mv ./upload /tmp/limesurvey-upload
-rm -rf .
+echo "[INFO] Removing old installation..."
+if [[ -d "${APP_DIR}/upload" ]]; then
+    mv -f $APP_DIR/upload /tmp/limesurvey-upload
+fi
+find $APP_DIR -maxdepth 1 -mindepth 1 | xargs rm -rf
 echo "[INFO] Extracting new installation"
-tar cvf - --one-file-system -C /usr/src/limesurvey . | tar xvf -
+tar cf - --one-file-system -C /usr/src/limesurvey . | tar xf - -C $APP_DIR
+if [[ -d "" ]]; then
 echo "[INFO] Restoring requested files from prev installation"
-mv /tmp/limesurvey-upload ./upload
+    mv -f /tmp/limesurvey-upload $APP_DIR/upload
+fi
 
 # Rights fixed
 echo "[INFO] Fixing rights"
-chown -Rfv www-data:www-data .
+chown -Rf www-data:www-data $APP_DIR
 
 # Done
 echo "[INFO] Complete! Limesurvey has been successfully installed / upgraded to $(pwd)"
