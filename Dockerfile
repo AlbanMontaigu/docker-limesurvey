@@ -30,4 +30,3 @@ VOLUME /var/backup/limesurvey
 # grr, ENTRYPOINT resets CMD now
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["php-fpm"]
-
