@@ -1,4 +1,4 @@
 
-## 3.0.0-RC.3+171114 (2017-11-17)
+## 2.72.4+171110 (2017-11-20)
 - Initial version
 - Docker compose file added for example
